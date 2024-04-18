@@ -28,9 +28,23 @@ namespace brasfut.Repositories
             }).ToList();
         }
 
-        public Championship GetChampionshipById(int id)
+        public ChampionshipDTO GetChampionshipById(int id)
         {
-            return _context.Championships.Find(id)!;
+            var championship = _context.Championships
+            .Include(c => c.TeamChampionshipLinks)!
+            .ThenInclude(tcl => tcl.Team)
+            .FirstOrDefault(c => c.ChampionshipId == id);
+
+            var championshipDto = new ChampionshipDTO
+            {
+                ChampionshipId = championship!.ChampionshipId,
+                Name = championship.Name,
+                Prize = championship.Prize,
+                QuantityTeams = championship.QunaityTeams,
+                Teams = championship.TeamChampionshipLinks!.Select(tcl => tcl.Team!.Name!).ToList()
+            };
+
+            return championshipDto;
         }
 
         public Championship AddChampionship(Championship championship)

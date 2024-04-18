@@ -1,3 +1,5 @@
+using brasfut.Models;
+
 namespace brasfut.DTOs
 {
     public class TeamDTO

@@ -27,9 +27,27 @@ namespace brasfut.Repositories
             return teams!;
         }
 
-        public Team GetTeamById(int id)
+        public TeamDTO GetTeamById(int id)
         {
-            return _context.Teams.Find(id)!;
+            var team = _context.Teams
+            .Include(t => t.TeamChampionshipLinks)!
+            .ThenInclude(tcl => tcl.Championship)
+            .FirstOrDefault(t => t.TeamId == id);
+
+            if (team == null)
+            {
+                return null!;
+            }
+
+            var teamDto = new TeamDTO
+            {
+                TeamId = team.TeamId,
+                Name = team.Name,
+                City = team.City,
+                Championships = team.TeamChampionshipLinks!.Select(tcl => tcl.Championship!.Name!).ToList()
+            };
+
+            return teamDto;
         }
 
         public Team AddTeam(Team team)

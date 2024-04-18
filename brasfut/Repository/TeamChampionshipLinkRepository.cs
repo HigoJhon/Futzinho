@@ -1,6 +1,7 @@
 using brasfut.Context;
 using brasfut.DTOs;
 using brasfut.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace brasfut.Repositories
 {
@@ -22,9 +23,21 @@ namespace brasfut.Repositories
             }).ToList();
         }
 
-        public TeamChampionshipLink GetTeamChampionshipLinkByIds(int teamId, int championshipId)
+        public TeamChampionshipLinkDTO GetTeamChampionshipLinkByIds(int teamId, int championshipId)
         {
-            return _context.TeamChampionshipLinks.FirstOrDefault(tcl => tcl.TeamId == teamId && tcl.ChampionshipId == championshipId)!;
+            // return _context.TeamChampionshipLinks.FirstOrDefault(tcl => tcl.TeamId == teamId && tcl.ChampionshipId == championshipId)!;
+            var link = _context.TeamChampionshipLinks
+            .Include(tcl => tcl.Team)
+            .Include(tcl => tcl.Championship)
+            .FirstOrDefault(tcl => tcl.TeamId == teamId && tcl.ChampionshipId == championshipId);
+
+            var linkDto = new TeamChampionshipLinkDTO
+            {
+                TeamName = link!.Team!.Name,
+                ChampionshipName = link.Championship!.Name
+            };
+
+            return linkDto;
         }
 
         public TeamChampionshipLink AddTeamChampionshipLink(TeamChampionshipLink link)

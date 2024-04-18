@@ -6,7 +6,7 @@ namespace brasfut.Repositories
     public interface ITeamRepository
     {
         IEnumerable<TeamDTO> GetAllTeams();
-        Team GetTeamById(int id);
+        TeamDTO GetTeamById(int id);
         Team AddTeam(Team team);
         Team UpdateTeam(Team team);
         void DeleteTeam(int id);

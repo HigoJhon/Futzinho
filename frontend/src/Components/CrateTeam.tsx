@@ -1,35 +1,70 @@
-import { useState } from "react";
-import { sendData } from "../Service/Request"
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { requestData, sendData } from "../Service/Request";
+
+import "../style/createTeam.css"
+
+interface ITeam {
+    name: string;
+}
 
 const CreateTeam = () => {
-    const [name, setName] = useState("");
-    const [city, setCity] = useState("");
+    const [formData, setFormData] = useState({ name: "", city: "" });
+    const [teamExist, setTeamExist] = useState(true);
+
+    const checkTeam = async () => {
+        // Supondo que requestData seja uma função que faz uma requisição
+        const response = await requestData("/team");
+        const regex = new RegExp(formData.name, "i");
+        const teamExists = response.find((team: ITeam) => regex.test(team.name));
+        const cityLength = formData.city.length >= 3;
+
+        setTeamExist(!teamExists && cityLength);
+    };
+
+    useEffect(() => {
+        checkTeam();
+    }, [formData.name, formData.city]);
 
     const createTeam = async () => {
-        await sendData("/team", { name, city });
-    }
+        // Supondo que sendData seja uma função que envia dados para o servidor
+        await sendData("/team", formData);
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
 
     return (
-        <div>
-            <h1>Create Team</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>City</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><input type="text" name="name" id="name" value={ name }  onChange={({ target: { value } }) => setName(value)}/></td>
-                        <td><input type="text" name="city" id="city" value={ city } onChange={({ target: { value } }) => setCity(value)}/></td>
-                    </tr>
-                </tbody>
-                <button 
-                    type="submit"
-                    onClick={createTeam}
-                >Criar</button>
-            </table>
+        <div className="create-team-container">
+            <div className="form-container">
+                <h1>Crie seu Time</h1>
+                <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder="Nome da equipe"
+                />
+                <input
+                    type="text"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleInputChange}
+                    placeholder="Cidade"
+                />
+                <Link to="/championships">
+                    <button
+                        className="button-creat-team" 
+                        disabled={!teamExist}
+                        type="submit"
+                        onClick={createTeam}
+                    >
+                        Criar
+                    </button>
+                </Link>
+            </div>
         </div>
     );
 };

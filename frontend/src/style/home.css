@@ -37,7 +37,7 @@
     transition-duration: 0.4s; /* duração da transição */
 }
 
-button:hover {
+.button-options button:hover {
     background-color: #45a049; /* cor de fundo ao passar o mouse */
     color: white; /* cor do texto ao passar o mouse */
   }

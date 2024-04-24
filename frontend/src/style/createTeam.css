@@ -1,0 +1,49 @@
+.create-team-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    background-color: #dee4e6;
+}
+
+.form-container {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    gap: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding: 50px;
+    border-radius: 10px;
+}
+
+input {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.button-creat-team {
+    background-color: #4CAF50; /* cor de fundo */
+    padding: 15px 32px; /* espaçamento interno */
+    display: inline-block; /* exibe como bloco */
+    font-size: 16px; /* tamanho da fonte */
+    margin: 4px 2px; /* margem externa */
+    cursor: pointer; /* cursor ao passar */
+    border-radius: 10px; /* borda arredondada */
+    transition-duration: 0.4s; /* duração da transição */
+    width: 100% ;
+}
+
+.button-creat-team:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.button-creat-team:hover {
+    background-color: #45a049; /* cor de fundo ao passar o mouse */
+    color: white; /* cor do texto ao passar o mouse */
+}

@@ -22,6 +22,9 @@ namespace backend.Repositories
                     TeamId = t.TeamId,
                     Name = t.Name,
                     City = t.City,
+                    Attack = t.Attack,
+                    Midfield = t.Midfield,
+                    Defense = t.Defense,
                     Championships = t.TeamChampionshipLinks!.Select(tcl => tcl.Championship!.Name!).ToList()
                 }).ToList();
             return teams!;
@@ -44,6 +47,9 @@ namespace backend.Repositories
                 TeamId = team.TeamId,
                 Name = team.Name,
                 City = team.City,
+                Attack = team.Attack,
+                Midfield = team.Midfield,
+                Defense = team.Defense,
                 Championships = team.TeamChampionshipLinks!.Select(tcl => tcl.Championship!.Name!).ToList()
             };
 
